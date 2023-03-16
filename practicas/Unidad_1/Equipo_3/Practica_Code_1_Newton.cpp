@@ -14,7 +14,7 @@ main()
         printf("\nIteracion %d\n",k);
         calcJacobiana(J,x);
         if(det(J)!=0)
-            printf("\nConverge\ndet(J) = %lf\n",det(J)");
+            printf("\nConverge\ndet(J) = %lf\n",det(J));
         else{
             printf("\nNo converge");
             return 0;

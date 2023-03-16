@@ -62,7 +62,7 @@ void gauss_jordan(double M[][3],double y[]){
             }
         }
         if(M[k][k]==0){
-            printf("No tiene solucion");
+            printf("\nNo tiene solucion\n");
             break;
         }
         else{
@@ -84,14 +84,14 @@ void gauss_jordan(double M[][3],double y[]){
     }
     printf("\nSolucion:\n");
     for(int i=0;i<2;i++){
-        printf("y%d=%lf\t",i+1,M[i][2]);
+        printf("y%d = %lf\t",i+1,M[i][2]);
         y[i]=M[i][2];
     }
     putchar('\n');
 }
 void matrizAumentada(double J[][2],double mA[][3],double f[]){
     int i,j;
-    printf("Jacobiana:\n");
+    printf("\nJacobiana:\n");
     for (i = 0; i < 2; i++)
     {
         for (j = 0; j < 2; j++)

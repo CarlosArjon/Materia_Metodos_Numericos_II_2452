@@ -14,7 +14,7 @@ main()
         printf("\nIteracion %d\n",k);
         calcJacobiana(J,x);
         if(det(J)!=0)
-            printf("\nConverge\n");
+            printf("\nConverge\ndet(J) = %lf\n",det(J)");
         else{
             printf("\nNo converge");
             return 0;
@@ -34,7 +34,7 @@ void calcJacobiana(double M[][2],double v[])
 {
     M[0][0]=10*v[0];
     M[0][1]=(-2)*v[1];
-    M[1][0]=(-1/4)*cos(v[0]);
+    M[1][0]=(-0.25)*cos(v[0]);
     M[1][1]=1+(0.25*sin(v[1]));
 }
 double det(double M[][2]){

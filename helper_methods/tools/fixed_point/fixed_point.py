@@ -1,6 +1,7 @@
 import tools.numeric_method.numeric_method as numeric_method
 import math
 import pandas as pd
+from typing import List
 
 
 class FixedPoint(numeric_method.NumericMethod):
@@ -13,42 +14,28 @@ class FixedPoint(numeric_method.NumericMethod):
 
     def logic_numeric_method(self):
 
-        lst_errors = []
+        lst_errors: List[str:float] = []
+        iteracion_newton = 0
 
         while True:
 
             # ==================Logic Method==================START
 
-            self.parameters["vector_aux"][0] = (
-                1
-                / 3
-                * (
-                    math.cos(
-                        self.parameters["vector_iterator"][1]
-                        * self.parameters["vector_iterator"][2]
-                    )
-                )
-                + 1 / 6
+            print(
+                f"\n===================Iteración {iteracion_newton}===================\n"
             )
-            self.parameters["vector_aux"][1] = (
-                1
-                / 9
-                * math.sqrt(
-                    math.pow(self.parameters["vector_iterator"][0], 2)
-                    + math.sin(self.parameters["vector_iterator"][2])
-                    + 1.06
-                )
-                - 0.1
+
+            self.parameters["vector_aux"][0] = (-1) * math.sqrt(
+                ((25 - math.pow(self.parameters["vector_iterator"][1] + 1, 2))) / 5
+            ) - 1
+
+            self.parameters["vector_aux"][1] = math.exp(
+                self.parameters["vector_iterator"][0]
             )
-            self.parameters["vector_aux"][2] = -1 / 20 * (
-                math.exp(
-                    (-1)
-                    * self.parameters["vector_iterator"][0]
-                    * self.parameters["vector_iterator"][1]
-                )
-            ) - (((10 * math.pi) - 3) / (60))
 
             # ==================Logic Method==================END
+
+            # ==================Error Method==================START
 
             error_value = self.error_calculation(
                 tuple(self.parameters["vector_iterator"]),
@@ -57,36 +44,39 @@ class FixedPoint(numeric_method.NumericMethod):
 
             lst_errors.append(error_value)
 
+            # ==================Error Method==================END
+
             (
                 self.parameters["vector_iterator"][0],
                 self.parameters["vector_iterator"][1],
-                self.parameters["vector_iterator"][2],
             ) = (
                 self.parameters["vector_aux"][0],
                 self.parameters["vector_aux"][1],
-                self.parameters["vector_aux"][2],
             )
 
-            self.parameters["table_output"]["x1"].append(
+            self.parameters["table_output"]["x0"].append(
                 self.parameters["vector_iterator"][0]
             )
 
-            self.parameters["table_output"]["x2"].append(
+            self.parameters["table_output"]["x1"].append(
                 self.parameters["vector_iterator"][1]
             )
 
-            self.parameters["table_output"]["x3"].append(
-                self.parameters["vector_iterator"][2]
-            )
+            print("x_0 : ", self.parameters["vector_iterator"][0])
+            print("\n")
+            print("x_1 : ", self.parameters["vector_iterator"][1])
 
             if (error_value <= 0.000001) and (error_value != 0.0):
                 break
 
+            iteracion_newton = iteracion_newton + 1
+
+        print("\n")
+
         df_data_punto_fijo = pd.DataFrame(
             {
+                "x0": self.parameters["table_output"]["x0"],
                 "x1": self.parameters["table_output"]["x1"],
-                "x2": self.parameters["table_output"]["x2"],
-                "x3": self.parameters["table_output"]["x3"],
                 "error": lst_errors,
             }
         )
